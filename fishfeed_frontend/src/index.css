@@ -1,0 +1,262 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap");
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    /* Core palette — deep ocean + warm coral, refined (LIGHT theme) */
+    --ocean-950: #061e2e;
+    --ocean-900: #0a3247;
+    --ocean-800: #0e4561;
+    --ocean-700: #135a7d;
+    --ocean-600: #1a7099;
+    --ocean-500: #2389b5;
+    --ocean-100: #e3f1f7;
+    --ocean-50: #f1f8fb;
+
+    --coral-600: #e8552f;
+    --coral-500: #ff6b4a;
+    --coral-400: #ff8a6e;
+    --coral-100: #ffeae3;
+    --coral-50: #fff4f0;
+
+    --ink-900: #14202b;
+    --ink-700: #2b3d4d;
+    --ink-500: #5c7384;
+    --ink-300: #9fb2be;
+    --ink-100: #e6edf1;
+
+    --success: #1f9d6e;
+    --success-bg: #e6f7ef;
+    --warning: #d89a2a;
+    --warning-bg: #fcf3df;
+    --danger: #dc4848;
+    --danger-bg: #fce8e8;
+
+    --surface: #ffffff;
+    --canvas: #f4f8fa;
+    --border: #e6edf1;
+    --border-soft: #f4f8fa;
+
+    --font-ui: "Inter", sans-serif;
+    --font-display: "Outfit", sans-serif;
+
+    color-scheme: light;
+  }
+
+  .dark {
+    --ocean-950: #e3f1f7;
+    --ocean-900: #bedce9;
+    --ocean-800: #6fb6d6;
+    --ocean-700: #4aa3cc;
+    --ocean-600: #2389b5;
+    --ocean-500: #3fa3cc;
+    --ocean-100: #123347;
+    --ocean-50: #0e2a3a;
+
+    --coral-600: #ff8a6e;
+    --coral-500: #ff7a57;
+    --coral-400: #ff6b4a;
+    --coral-100: #3a241d;
+    --coral-50: #2b1c16;
+
+    --ink-900: #eef3f6;
+    --ink-700: #c7d3da;
+    --ink-500: #93a4af;
+    --ink-300: #5c7384;
+    --ink-100: #233340;
+
+    --success: #34c28a;
+    --success-bg: #103625;
+    --warning: #e8b655;
+    --warning-bg: #3a2d10;
+    --danger: #f0716e;
+    --danger-bg: #3a1a1a;
+
+    --surface: #14202b;
+    --canvas: #0a141c;
+    --border: #233340;
+    --border-soft: #1a2733;
+
+    color-scheme: dark;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-ui);
+    background: var(--canvas);
+    color: var(--ink-900);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition:
+      background-color 0.25s ease,
+      color 0.25s ease;
+  }
+
+  h1,
+  h2,
+  h3,
+  .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--ink-100);
+    border-radius: 99px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--ink-300);
+  }
+}
+
+@layer components {
+  .dot-grid {
+    background-image: radial-gradient(
+      circle,
+      var(--border) 1px,
+      transparent 1px
+    );
+    background-size: 22px 22px;
+  }
+
+  .aurora-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    background: var(--ocean-950);
+  }
+  .aurora-bg::before,
+  .aurora-bg::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(110px);
+    opacity: 0.55;
+    will-change: transform;
+  }
+  .aurora-bg::before {
+    width: 60vw;
+    height: 60vw;
+    top: -15vw;
+    left: -10vw;
+    background: radial-gradient(circle, var(--ocean-500), transparent 70%);
+    animation: aurora-drift-1 16s ease-in-out infinite alternate;
+  }
+  .aurora-bg::after {
+    width: 50vw;
+    height: 50vw;
+    bottom: -20vw;
+    right: -10vw;
+    background: radial-gradient(circle, var(--coral-500), transparent 70%);
+    opacity: 0.28;
+    animation: aurora-drift-2 20s ease-in-out infinite alternate;
+  }
+  .aurora-bg .aurora-mid {
+    position: absolute;
+    width: 45vw;
+    height: 45vw;
+    top: 30%;
+    left: 35%;
+    background: radial-gradient(circle, var(--ocean-600), transparent 70%);
+    filter: blur(100px);
+    opacity: 0.35;
+    border-radius: 50%;
+    animation: aurora-drift-3 24s ease-in-out infinite alternate;
+  }
+
+  .fade-up {
+    animation: fadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .animate-spin-slow {
+    animation: spin 1s linear infinite;
+  }
+
+  .glass {
+    background: color-mix(in srgb, var(--surface) 96%, transparent);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  .shadow-soft {
+    box-shadow:
+      0 1px 2px rgba(20, 32, 43, 0.04),
+      0 8px 24px -8px rgba(20, 32, 43, 0.08);
+  }
+  .shadow-soft-lg {
+    box-shadow:
+      0 4px 12px rgba(20, 32, 43, 0.05),
+      0 16px 40px -12px rgba(20, 32, 43, 0.14);
+  }
+}
+
+@layer components {
+  .dark .shadow-soft {
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.2),
+      0 8px 24px -8px rgba(0, 0, 0, 0.35);
+  }
+  .dark .shadow-soft-lg {
+    box-shadow:
+      0 4px 12px rgba(0, 0, 0, 0.25),
+      0 16px 40px -12px rgba(0, 0, 0, 0.5);
+  }
+}
+
+@keyframes aurora-drift-1 {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    transform: translate(8vw, 6vw) scale(1.15);
+  }
+}
+@keyframes aurora-drift-2 {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    transform: translate(-6vw, -8vw) scale(1.1);
+  }
+}
+@keyframes aurora-drift-3 {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(180deg);
+  }
+}
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
