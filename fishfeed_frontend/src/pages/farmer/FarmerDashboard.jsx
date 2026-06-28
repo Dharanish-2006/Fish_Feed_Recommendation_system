@@ -50,7 +50,7 @@ export default function FarmerDashboard() {
     <div className="space-y-7">
       <motion.div
         {...fadeUp}
-        className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#0E4561] via-[#0A3247] to-[#061E2E] p-8 text-white"
+        className="relative overflow-hidden rounded-3xl bg-linear-to-br from-[#0E4561] via-[#0A3247] to-[#061E2E] p-8 text-white"
       >
         <div className="absolute -right-10 -top-10 w-64 h-64 bg-[#2389B5]/20 rounded-full blur-3xl" />
         <div className="absolute -left-10 -bottom-10 w-56 h-56 bg-[#FF6B4A]/10 rounded-full blur-3xl" />

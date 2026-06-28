@@ -74,23 +74,6 @@ export function LoginPage() {
               Don't have an account?{' '}
               <Link to="/register" className="text-[#0E4561] dark:text-[#6FB6D6] font-semibold hover:underline">Register</Link>
             </p>
-
-            <div className="mt-6 p-4 bg-[#F1F8FB] dark:bg-[#123347] rounded-2xl border border-[#E3F1F7] dark:border-[#1A4A63]">
-              <p className="text-[11px] font-bold text-[#5C7384] dark:text-[#93A4AF] uppercase tracking-wide mb-2.5">Demo accounts</p>
-              <div className="space-y-1.5">
-                {[
-                  { icon: Wheat, label: 'farmer@demo.com', sub: 'demo1234' },
-                  { icon: Package, label: 'supplier@demo.com', sub: 'demo1234' },
-                  { icon: UserIcon, label: 'admin@demo.com', sub: 'admin1234' },
-                ].map((d) => (
-                  <div key={d.label} className="flex items-center gap-2 text-xs text-[#5C7384] dark:text-[#93A4AF]">
-                    <d.icon size={13} className="text-[#9FB2BE] dark:text-[#5C7384]" />
-                    <span className="font-mono">{d.label}</span>
-                    <span className="text-[#9FB2BE] dark:text-[#5C7384]">/ {d.sub}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
         </motion.div>
       </div>
