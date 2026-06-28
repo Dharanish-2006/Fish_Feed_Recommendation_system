@@ -1,10 +1,17 @@
 """
 Seed the database with sample fish species and feed products for development.
-Run: python manage.py shell < scripts/seed_data.py
-     OR: python scripts/seed_data.py (after setting DJANGO_SETTINGS_MODULE)
+Run from the project root:  python scripts/seed_data.py
 """
 import os
+import sys
 import django
+
+# Ensure the project root (where manage.py lives) is on sys.path so that
+# `config.settings` and the `apps.*` packages can be found regardless of
+# which directory this script is launched from.
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 django.setup()

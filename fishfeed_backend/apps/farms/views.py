@@ -2,10 +2,8 @@ from rest_framework import generics, permissions
 from .models import Farm, FishStock, FeedingHistory
 from .serializers import FarmSerializer, FishStockSerializer, FeedingHistorySerializer
 from apps.users.permissions import IsFarmerOrAdmin
-
-
 class FarmListCreateView(generics.ListCreateAPIView):
-    serializer_class = FarmSerializer
+    serializer_class   = FarmSerializer
     permission_classes = [IsFarmerOrAdmin]
 
     def get_queryset(self):
@@ -17,9 +15,8 @@ class FarmListCreateView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(farmer=self.request.user)
 
-
 class FarmDetailView(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = FarmSerializer
+    serializer_class   = FarmSerializer
     permission_classes = [IsFarmerOrAdmin]
 
     def get_queryset(self):
@@ -30,18 +27,25 @@ class FarmDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class FishStockListCreateView(generics.ListCreateAPIView):
-    serializer_class = FishStockSerializer
+    serializer_class   = FishStockSerializer
     permission_classes = [IsFarmerOrAdmin]
 
     def get_queryset(self):
         user = self.request.user
+        farm_pk = self.kwargs['farm_pk']
         if user.role == 'admin':
-            return FishStock.objects.filter(farm_id=self.kwargs['farm_pk'])
-        return FishStock.objects.filter(farm__farmer=user, farm_id=self.kwargs['farm_pk'], is_active=True)
+            return FishStock.objects.filter(farm_id=farm_pk).select_related('species', 'farm')
+        return FishStock.objects.filter(
+            farm__farmer=user, farm_id=farm_pk, is_active=True
+        ).select_related('species', 'farm')
+
+    def perform_create(self, serializer):
+        farm = Farm.objects.get(pk=self.kwargs['farm_pk'])
+        serializer.save(farm=farm)
 
 
 class FishStockDetailView(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = FishStockSerializer
+    serializer_class   = FishStockSerializer
     permission_classes = [IsFarmerOrAdmin]
 
     def get_queryset(self):
@@ -52,13 +56,15 @@ class FishStockDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class FeedingHistoryListCreateView(generics.ListCreateAPIView):
-    serializer_class = FeedingHistorySerializer
+    serializer_class   = FeedingHistorySerializer
     permission_classes = [IsFarmerOrAdmin]
-    filterset_fields = ['fish_stock', 'feed', 'feeding_date']
-    ordering_fields = ['feeding_date', 'created_at']
+    filterset_fields   = ['fish_stock', 'feed', 'feeding_date']
+    ordering_fields    = ['feeding_date', 'created_at']
 
     def get_queryset(self):
         user = self.request.user
         if user.role == 'admin':
             return FeedingHistory.objects.all()
-        return FeedingHistory.objects.filter(fish_stock__farm__farmer=user)
+        return FeedingHistory.objects.filter(
+            fish_stock__farm__farmer=user
+        ).select_related('feed', 'fish_stock__species')
