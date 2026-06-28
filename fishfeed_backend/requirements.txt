@@ -14,10 +14,10 @@ redis==5.0.8
 django-celery-beat==2.6.0
 django-celery-results==2.5.1
 sib-api-v3-sdk==7.6.0
-numpy>=2.3
-scipy>=1.16
-pandas>=2.3
-scikit-learn>=1.7
+scikit-learn==1.5.1
+numpy==1.26.4
+pandas==2.2.2
+scipy==1.14.0
 joblib==1.4.2
 Pillow==10.4.0
 python-slugify==8.0.4
